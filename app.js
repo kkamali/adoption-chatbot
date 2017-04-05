@@ -13,6 +13,12 @@ var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
+
+server.get('/', restify.serveStatic({
+    directory: __dirname,
+    default: '/index.html'
+}));
+
 server.post('/api/messages', connector.listen());
 
 var bot = new builder.UniversalBot(connector);
@@ -83,7 +89,7 @@ bot.dialog('Cat', function(session) {
             // attach the card to the reply message
             var msg = new builder.Message(session).addAttachment(card);
             session.send(msg);
-            session.send("Would you like to see another cat? You can say 'more cats!'"); 
+            session.send("Would you like to see another cat? You can say 'more cats!'");
         }
     });
 }).triggerAction({
